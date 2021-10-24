@@ -54,4 +54,4 @@ def download():
     return send_file("declaratii_esb.csv", as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(port=5000, host='192.168.204.130', debug=True)
+    app.run(port=5000, host='0.0.0.0', debug=True)
