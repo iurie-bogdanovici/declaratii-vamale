@@ -62,7 +62,7 @@ function upload(url) {
         if (request.status == 200) {
             //change_upload_btn("Upload file");
             show_alert(`${request.response.message}`, "success")
-            download_file("http://192.168.204.130:5000/export_csv", "declaratii_esb.csv")
+            download_file("http://172.17.0.3:5000/export_csv", "declaratii_esb.csv")
         }
         else {
             show_alert("Error uploading the file", "danger")
