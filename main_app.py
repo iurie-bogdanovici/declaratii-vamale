@@ -33,10 +33,11 @@ def get_text_from_jpg(filename):
     print(f"text has been extracted from {filename}")
     return all_text
 
-def move_file_to_archive(filename):
-    source = f"{CUR_PATH}/uploads/{filename}"
-    destination = f"{CUR_PATH}/archive/{filename}"
-    shutil.move(source, destination)
+def move_files_to_archive(files):
+    for filename in files:
+        source = f"{CUR_PATH}/uploads/{filename}"
+        destination = f"{CUR_PATH}/archive/{filename}"
+        shutil.move(source, destination)
     
 def change_date_format(date):
     months = {'ianuarie': '01', 'februarie': '02', 'martie': '03', 
@@ -85,8 +86,8 @@ def get_mthread_parsed_text_from_jpg(filenames):
             parsed_text_list.append(parsed_text)
     return parsed_text_list
 
-def export_data(data):
-    with open('declaratii_esb.csv', 'w') as file:
+def export_data(uuid_nr, data):
+    with open(f'declaratii_esb_{uuid_nr}.csv', 'w') as file:
         writer = csv.writer(file)
         headers = ('Nr Act', 'La FF','Data Factura' , 'Nr DV', 'Suma')
         writer.writerow(headers)
@@ -95,18 +96,18 @@ def export_data(data):
     print("Data has been exported to declaratii_esb.csv file")
         
 
-if __name__ == '__main__':
-    os.environ['OMP_THREAD_LIMIT'] = '1'
-    start_time = time.time()
+# if __name__ == '__main__':
+#     os.environ['OMP_THREAD_LIMIT'] = '1'
+#     start_time = time.time()
 
-    pdf_files = get_files_by_ext('pdf')
-    for index, pdf_file in enumerate(pdf_files):
-        print(f"Converting {pdf_file}, file {index + 1} from total of {len(pdf_files)} files...")
-        convert_pdf_jpg(pdf_file)
+#     pdf_files = get_files_by_ext('pdf')
+#     for index, pdf_file in enumerate(pdf_files):
+#         print(f"Converting {pdf_file}, file {index + 1} from total of {len(pdf_files)} files...")
+#         convert_pdf_jpg(pdf_file)
 
-    jpg_files = get_files_by_ext('jpg')
+#     jpg_files = get_files_by_ext('jpg')
 
-    all_pdf_data = get_mthread_parsed_text_from_jpg(jpg_files)
-    export_data(all_pdf_data)
-    del_files_by_name(jpg_files)
-    print(f"--- {time.time() - start_time} seconds have passed ---")
+#     all_pdf_data = get_mthread_parsed_text_from_jpg(jpg_files)
+#     export_data(all_pdf_data)
+#     del_files_by_name(jpg_files)
+#     print(f"--- {time.time() - start_time} seconds have passed ---")

@@ -36,6 +36,15 @@ function download_file(fileUrl, fileName) {
     a.click();
 }
 
+const ALLOWED_EXTENSIONS = ['pdf'];
+
+function allowed_file_ext(filename) {
+    const includesDot = filename.includes('.');
+    const isInALLOWED_EXTENSIONS = ALLOWED_EXTENSIONS.includes((filename.split(".").pop()).toLowerCase());
+    return includesDot && isInALLOWED_EXTENSIONS
+}
+
+
 function upload(url) {
     if (!input.value) {
         show_alert("No file selected", "warning")
@@ -54,18 +63,17 @@ function upload(url) {
     let allowed_extension = true;
 
     for (let file of input.files) {
-        if ((file.name.split(".").pop()).toLowerCase() !== 'pdf') {
+        if (!allowed_file_ext(file.name)) {
             allowed_extension = false;
         }
         data.append(file.name, file);
     }
     
-
     request.addEventListener("load", function(evt) {
         if (request.status == 200) {
             //change_upload_btn("Upload file");
             show_alert(`${request.response.message}`, "success")
-            download_file("http://10.193.30.204:5000/export_csv", "declaratii_esb.csv")
+            download_file(`http://192.168.204.130:5000/export_csv?uuid=${request.response.uuid}`, "declaratii_esb.csv")
         }
         else if (!allowed_extension){
             show_alert("Error uploading the file, wrong extension. Only pdf files are allowed!", "danger")
