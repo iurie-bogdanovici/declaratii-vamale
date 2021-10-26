@@ -51,18 +51,24 @@ function upload(url) {
     loading_btn.classList.remove("d-none");
     cancel_btn.classList.remove("d-none")
 
-    //const file = input.files[0];
+    let allowed_extension = true;
 
     for (let file of input.files) {
+        if ((file.name.split(".").pop()).toLowerCase() !== 'pdf') {
+            allowed_extension = false;
+        }
         data.append(file.name, file);
     }
-    //change_upload_btn("Processing...");
+    
 
     request.addEventListener("load", function(evt) {
         if (request.status == 200) {
             //change_upload_btn("Upload file");
             show_alert(`${request.response.message}`, "success")
             download_file("http://10.193.30.204:5000/export_csv", "declaratii_esb.csv")
+        }
+        else if (!allowed_extension){
+            show_alert("Error uploading the file, wrong extension. Only pdf files are allowed!", "danger")
         }
         else {
             show_alert("Error uploading the file", "danger")
