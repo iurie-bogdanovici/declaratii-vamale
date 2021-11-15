@@ -43,7 +43,7 @@ def change_date_format(date):
     months = {'ianuarie': '01', 'februarie': '02', 'martie': '03', 
                 'aprilie': '04', 'mai': '05', 'iunie': '06', 
                 'iulie': '07', 'august': '08', 'septembrie': '09',
-                'octombrie': '10', 'noiemrie': '11', 'decembrie': '12'}
+                'octombrie': '10', 'noiembrie': '11', 'decembrie': '12'}
     date_spl = date.split(' ')
     date_spl[1] = months[date_spl[1]]
     return '.'.join(date_spl)
